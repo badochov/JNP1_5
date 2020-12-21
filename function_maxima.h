@@ -2,6 +2,7 @@
 #define JNP1_5_FUNCTION_MAXIMA_H
 
 #include <functional>
+#include <set>
 
 template<typename A, typename V>
 class FunctionMaxima {
@@ -19,7 +20,7 @@ private:
         }
 
         bool operator<(const PointType &rhs) {
-            return std::less(_arg, rhs.arg());
+            return std::less()(_arg, rhs.arg());
         }
 
     private:
@@ -31,15 +32,26 @@ private:
         V _value;
     };
 
-public:
 
     static bool maximum_comparator(const PointType &pt1, const PointType &pt2) {
-        return std::greater(pt1.value(), pt2.value()) && std::less(pt1.arg(), pt2.arg());
+        return !std::less()(pt1.value(), pt2.value()) && std::less()(pt1.arg(), pt2.arg());
     }
 
-    using point_type = PointType;
+    using value_map_type = std::set<PointType>;
 
+    value_map_type values;
+
+public:
+
+    FunctionMaxima() = default;
+
+    using point_type = PointType;
+    using size_type = typename value_map_type::size_type;
+
+    size_type size() const {
+        return values.size();
+    }
 };
 
 
-#endif //JNP1_5_FUNCTION_MAXIMA_H
+#endif // JNP1_5_FUNCTION_MAXIMA_H
