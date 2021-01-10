@@ -21,6 +21,12 @@ private:
   int value;
 };
 
+std::ostream& operator<<(std::ostream& os, const Secret& dt){
+    os << dt.get() ;
+    return os;
+}
+
+
 template<typename A, typename V>
 struct same {
   bool operator()(const typename FunctionMaxima<A, V>::point_type &p,
